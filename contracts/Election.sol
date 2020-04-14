@@ -15,8 +15,11 @@ contract Election{
     // Store Candidates
     // Fetch Candidate
     mapping(uint => Candidate) public candidates;
-    // key is uint and value is our candidate
-    // mapping is like hashtable
+    
+    // voted event
+    event votedEvent (
+        uint indexed _candidateId
+    );
 
 
     // Store Candidates Count
@@ -50,6 +53,6 @@ contract Election{
         candidates[_candidateId].voteCount ++;
 
         // trigger voted event
-        // emit votedEvent(_candidateId);
+        emit votedEvent(_candidateId);
     }
 }

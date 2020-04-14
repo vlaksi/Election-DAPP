@@ -9,6 +9,9 @@ contract Election{
         uint voteCount;
     }
 
+    // Store accounts that have voted
+    mapping(address => bool) public voters;
+
     // Store Candidates
     // Fetch Candidate
     mapping(uint => Candidate) public candidates;
@@ -30,11 +33,23 @@ contract Election{
         candidatesCount ++;
         candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
     }
-    /*
-		When we created struct model Candidate,
-		we have 'built-in constructor', so when we want
-		to make one instance of that model
-		we go in order for each variable in model.
-		Candidate(firstVariable, secondVariable, and so on...) 
-    */
+    
+    function vote (uint _candidateId) public {
+        // require that they haven't voted before
+        require(!voters[msg.sender]);
+        // if require is false, we stop execution
+
+
+        // require a valid candidate
+        require(_candidateId > 0 && _candidateId <= candidatesCount);
+
+        // record that voter has voted
+        voters[msg.sender] = true;
+
+        // update candidate vote Count
+        candidates[_candidateId].voteCount ++;
+
+        // trigger voted event
+        // emit votedEvent(_candidateId);
+    }
 }
